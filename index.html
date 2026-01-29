@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TAROT - เปิดไพ่ค้นหาคำตอบ</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='12' y='6' width='40' height='52' rx='4' fill='%235C4D3D'/%3E%3Crect x='16' y='10' width='32' height='44' rx='2' fill='none' stroke='%238B7765' stroke-width='1'/%3E%3Cpath d='M32 18 L34.5 26 L43 26 L36.5 31 L39 40 L32 35 L25 40 L27.5 31 L21 26 L29.5 26 Z' fill='%23D4C8BB'/%3E%3Ccircle cx='32' cy='46' r='2' fill='%23B5A393'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-line"></div>
+      <h1>TAROT</h1>
+      <p class="subtitle">เปิดไพ่ · ค้นหาคำตอบ</p>
+      <div class="header-line"></div>
+      <div class="reading-counter">
+        <span class="counter-text">เปิดไพ่ไปแล้ว </span>
+        <span class="counter-number" id="readingCounter">-</span>
+        <span class="counter-text"> ครั้ง</span>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Step 1: Choose Spread -->
+      <div id="step1" class="step active">
+        <div class="section-box">
+          <div class="decorative-icon">✦</div>
+          <h2 class="section-title">เลือกรูปแบบการจับไพ่</h2>
+          <p class="instruction">เลือกจำนวนไพ่ที่ต้องการเปิด</p>
+
+          <div class="spread-options">
+            <div class="spread-option" onclick="selectSpread(1)">
+              <div class="spread-info">
+                <div class="spread-name">Card of the Day</div>
+                <div class="spread-desc">ไพ่ประจำวัน</div>
+                <div class="spread-plays" id="plays-1">เปิดไปแล้ว - ครั้ง</div>
+              </div>
+              <div class="spread-count">1</div>
+            </div>
+            <div class="spread-option" onclick="selectSpread(2)">
+              <div class="spread-info">
+                <div class="spread-name">Two Cards</div>
+                <div class="spread-desc">จับไพ่ 2 ใบ</div>
+                <div class="spread-plays" id="plays-2">เปิดไปแล้ว - ครั้ง</div>
+              </div>
+              <div class="spread-count">2</div>
+            </div>
+            <div class="spread-option" onclick="selectSpread(3)">
+              <div class="spread-info">
+                <div class="spread-name">Timeline</div>
+                <div class="spread-desc">อดีต · ปัจจุบัน · อนาคต</div>
+                <div class="spread-plays" id="plays-3">เปิดไปแล้ว - ครั้ง</div>
+              </div>
+              <div class="spread-count">3</div>
+            </div>
+            <div class="spread-option" onclick="selectSpread(4)">
+              <div class="spread-info">
+                <div class="spread-name">Pyramid</div>
+                <div class="spread-desc">สถานการณ์และทางออก</div>
+                <div class="spread-plays" id="plays-4">เปิดไปแล้ว - ครั้ง</div>
+              </div>
+              <div class="spread-count">4</div>
+            </div>
+            <div class="spread-option" onclick="selectSpread(10)">
+              <div class="spread-info">
+                <div class="spread-name">Celtic Cross</div>
+                <div class="spread-desc">การอ่านเชิงลึก</div>
+                <div class="spread-plays" id="plays-10">เปิดไปแล้ว - ครั้ง</div>
+              </div>
+              <div class="spread-count">10</div>
+            </div>
+            <div class="spread-option" onclick="selectSpread(12)">
+              <div class="spread-info">
+                <div class="spread-name">Year Ahead</div>
+                <div class="spread-desc">พยากรณ์รายเดือน ม.ค. - ธ.ค.</div>
+                <div class="spread-plays" id="plays-12">เปิดไปแล้ว - ครั้ง</div>
+              </div>
+              <div class="spread-count">12</div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-decor">
+          <span class="decor-line"></span>
+          <span class="decor-dot">◆</span>
+          <span class="decor-line"></span>
+        </div>
+      </div>
+
+      <!-- Step 2: Question (Optional) -->
+      <div id="step2" class="step">
+        <button class="btn-back" onclick="goBackToStep1()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          ย้อนกลับ
+        </button>
+        <div class="section-box">
+          <div class="decorative-icon">✦</div>
+          <h2 class="section-title">ตั้งคำถามในใจ</h2>
+          <p class="instruction">
+            พิมพ์คำถามที่คุณต้องการคำตอบ<br>
+            ไพ่จะนำทางคุณไปสู่ความกระจ่าง
+          </p>
+          <textarea id="questionInput" placeholder="เขียนคำถามของคุณที่นี่..." rows="3"></textarea>
+          <p class="optional-hint">* ไม่จำเป็นต้องใส่คำถามก็ได้</p>
+          <button class="btn" onclick="goToStep3()">เปิดไพ่</button>
+        </div>
+        <div class="footer-decor">
+          <span class="decor-line"></span>
+          <span class="decor-dot">◆</span>
+          <span class="decor-line"></span>
+        </div>
+      </div>
+
+      <!-- Step 3: Card Selection -->
+      <div id="step3" class="step">
+        <button class="btn-back" onclick="goBackToStep2()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          ย้อนกลับ
+        </button>
+        <div class="selection-header">
+          <p class="question-display" id="questionDisplay"></p>
+          <div class="selected-count" id="selectedCount">0 / 3</div>
+          <p class="selection-hint">แตะเพื่อเลือก · แตะอีกครั้งเพื่อยกเลิก</p>
+          <div class="selected-preview" id="selectedPreview"></div>
+        </div>
+
+        <div class="card-spread" id="cardSpread"></div>
+        <div class="card-grid-mobile" id="cardGridMobile">
+          <div class="grid-container" id="gridContainer"></div>
+        </div>
+      </div>
+
+      <!-- Step 4: Results -->
+      <div id="step4" class="step">
+        <div class="result-container" id="resultContainer">
+          <div class="result-header">
+            <p class="result-question" id="questionDisplayResult"></p>
+            <p class="result-title">ไพ่ของคุณ</p>
+          </div>
+          <div class="result-cards" id="resultCards"></div>
+          <div class="result-footer">
+            <p class="result-footer-text">TAROT · เปิดใจ · รับฟัง · ค้นพบ</p>
+          </div>
+        </div>
+
+        <!-- AI Prediction Result -->
+        <div id="aiPredictionSection" class="ai-prediction-section" style="display: none;">
+          <div class="ai-prediction-container">
+            <div class="ai-header">
+              <div class="ai-icon">✨</div>
+              <h3 class="ai-title">คำทำนายจากหมอดู AI</h3>
+            </div>
+            <div id="aiPredictionContent" class="ai-content"></div>
+          </div>
+        </div>
+
+        <!-- AI Loading -->
+        <div id="aiLoadingSection" class="ai-loading-section" style="display: none;">
+          <div class="ai-loading-container">
+            <div class="crystal-ball">
+              <div class="crystal-shine"></div>
+              <div class="crystal-glow"></div>
+            </div>
+            <p class="loading-text">หมอดูกำลังอ่านไพ่...</p>
+          </div>
+        </div>
+
+        <!-- AI Error -->
+        <div id="aiErrorSection" class="ai-error-section" style="display: none;">
+          <div class="ai-error-container">
+            <div class="error-icon">🌙</div>
+            <h3 class="error-title">หมอดูกำลังพักผ่อน</h3>
+            <p class="error-message">พลังจักรวาลยังไม่พร้อม<br>โปรดลองอีกครั้งในภายหลัง</p>
+            <button class="btn btn-outline" onclick="retryAIPrediction()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 18px; height: 18px; display: inline-block; vertical-align: middle; margin-right: 8px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              ลองอีกครั้ง
+            </button>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-ai" id="aiPredictBtn" onclick="getAIPrediction()" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            ทำนายโดย AI
+          </button>
+          <button class="btn btn-save" onclick="saveImage()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            บันทึกรูป
+          </button>
+          <button class="btn btn-outline" onclick="restart()">เปิดไพ่ใหม่</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p class="footer-text">เปิดใจ · รับฟัง · ค้นพบ</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="ai_functions.js"></script>
+  <script>
+    // Override showResults to update AI button visibility
+    const originalGoToStep4 = goToStep4;
+    goToStep4 = function() {
+      originalGoToStep4();
+      setTimeout(() => {
+        updateAIButtonVisibility();
+        // Reset AI sections
+        document.getElementById('aiPredictionSection').style.display = 'none';
+        document.getElementById('aiLoadingSection').style.display = 'none';
+        document.getElementById('aiErrorSection').style.display = 'none';
+      }, 100);
+    };
+  </script>
+</body>
+</html>
