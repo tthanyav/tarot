@@ -18,7 +18,12 @@
       "Bash(cmd /c \"start /B node server.js > server.log 2>&1\")",
       "Bash(/c/Program Files/nodejs/node.exe server.js)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: Tarot card reading website\n\nFeatures:\n- Multiple spread types \\(1, 2, 3, 4, 10, 12 cards\\)\n- Beautiful tarot card UI with animations\n- AI-powered predictions using OpenAI GPT-4o-mini\n- Firebase analytics integration\n- Responsive mobile design\n- Image save functionality\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(gh --version:*)"
     ]
   }
 }
