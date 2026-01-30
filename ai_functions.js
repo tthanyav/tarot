@@ -1,6 +1,10 @@
 
 // ========== AI Prediction Functions ==========
 
+// Check if AI is available (only on Vercel, not on GitHub Pages)
+const isGitHubPages = window.location.hostname.includes('github.io');
+const AI_AVAILABLE = !isGitHubPages;
+
 // API endpoint - use relative path to work with any Vercel deployment URL
 const API_ENDPOINT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api/predict'  // Local development
@@ -179,9 +183,17 @@ function retryAIPrediction() {
   getAIPrediction();
 }
 
-// Show/hide AI button based on question
+// Show/hide AI button based on question and platform availability
 function updateAIButtonVisibility() {
   const aiBtn = document.getElementById('aiPredictBtn');
+
+  // Hide AI button on GitHub Pages (no serverless function support)
+  if (!AI_AVAILABLE) {
+    aiBtn.style.display = 'none';
+    return;
+  }
+
+  // Show button only if question is entered
   if (question && question.trim()) {
     aiBtn.style.display = 'flex';
   } else {
