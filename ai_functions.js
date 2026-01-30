@@ -138,30 +138,29 @@ async function getAIPrediction() {
 
 // Create prompt for AI
 function createTarotPrompt(userQuestion, cards, numCards) {
-  let prompt = userQuestion && userQuestion.trim()
-    ? `คำถาม: "${userQuestion}"\n\n`
-    : `คำทำนายทั่วไป\n\n`;
+  let prompt = '';
 
-  prompt += `ไพ่ ${numCards} ใบ:\n`;
+  // Add question
+  if (userQuestion && userQuestion.trim()) {
+    prompt += `คำถาม: "${userQuestion}"\n\n`;
+  }
 
+  // Add cards
+  prompt += `ไพ่ที่เปิดได้ ${numCards} ใบ:\n`;
   cards.forEach((card, index) => {
-    prompt += `${index + 1}. ${card.name}\n`;
-    if (card.readings) {
-      // ใช้แค่ความหมายที่เกี่ยวข้องกับคำถาม หรือความหมายหลัก
-      const reading = card.readings.card_of_the_day ||
-                     card.readings.love ||
-                     card.readings.work ||
-                     card.readings.finance;
-      if (reading) {
-        // ตัดข้อความที่ยาวเกินไป เหลือแค่ 150 ตัวอักษรแรก
-        const shortReading = reading.length > 150 ? reading.substring(0, 150) + '...' : reading;
-        prompt += `   ${shortReading}\n`;
-      }
-    }
-    prompt += `\n`;
+    prompt += `${index + 1}. **${card.name}**\n`;
   });
 
-  prompt += `\nทำนายภาษาไทย 200-250 คำ เชื่อมโยงคำถาม อธิบายไพ่ ให้คำแนะนำเชิงบวก`;
+  // Instructions for the AI
+  prompt += `\n--- โปรดทำนายให้ ---\n\n`;
+  prompt += `รูปแบบคำทำนาย:\n`;
+  prompt += `1. เริ่มด้วยประโยคเปิดที่เชื่อมโยงกับคำถาม (1-2 ประโยค)\n`;
+  prompt += `2. อธิบายไพ่แต่ละใบว่าหมายถึงอะไรในบริบทของคำถาม เช่น:\n`;
+  prompt += `   "ไพ่ ${cards[0]?.name || 'แรก'} บ่งบอกว่า... "\n`;
+  if (cards[1]) prompt += `   "ไพ่ ${cards[1].name} แสดงให้เห็นว่า... "\n`;
+  if (cards[2]) prompt += `   "ไพ่ ${cards[2].name} ชี้ให้เห็นว่า... "\n`;
+  prompt += `3. สรุปภาพรวมและให้คำแนะนำที่ชัดเจนเป็นประโยชน์\n\n`;
+  prompt += `ความยาว: 180-220 คำ | ใช้ภาษาที่อ่านง่าย กระชับ ตรงประเด็น`;
 
   return prompt;
 }
