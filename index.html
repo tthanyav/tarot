@@ -206,11 +206,19 @@
 
     <footer>
       <p class="footer-text">เปิดใจ · รับฟัง · ค้นพบ</p>
+      <p class="version-text" id="versionInfo" style="font-size: 11px; color: rgba(92, 77, 61, 0.5); margin-top: 8px;">v1.0.0</p>
     </footer>
   </div>
 
+  <script src="version.js"></script>
   <script src="script.js"></script>
   <script src="ai_functions.js"></script>
+  <script>
+    // Display version
+    if (typeof APP_VERSION !== 'undefined') {
+      document.getElementById('versionInfo').textContent = `v${APP_VERSION} • Updated: ${LAST_UPDATED}`;
+    }
+  </script>
   <script>
     // Override showResults to update AI button visibility
     const originalGoToStep4 = goToStep4;
