@@ -148,19 +148,27 @@ function createTarotPrompt(userQuestion, cards, numCards) {
   // Add cards
   prompt += `ไพ่ที่เปิดได้ ${numCards} ใบ:\n`;
   cards.forEach((card, index) => {
-    prompt += `${index + 1}. **${card.name}**\n`;
+    prompt += `${index + 1}. ${card.name}\n`;
   });
 
-  // Instructions for the AI
-  prompt += `\n--- โปรดทำนายให้ ---\n\n`;
-  prompt += `รูปแบบคำทำนาย:\n`;
-  prompt += `1. เริ่มด้วยประโยคเปิดที่เชื่อมโยงกับคำถาม (1-2 ประโยค)\n`;
-  prompt += `2. อธิบายไพ่แต่ละใบว่าหมายถึงอะไรในบริบทของคำถาม เช่น:\n`;
-  prompt += `   "ไพ่ ${cards[0]?.name || 'แรก'} บ่งบอกว่า... "\n`;
-  if (cards[1]) prompt += `   "ไพ่ ${cards[1].name} แสดงให้เห็นว่า... "\n`;
-  if (cards[2]) prompt += `   "ไพ่ ${cards[2].name} ชี้ให้เห็นว่า... "\n`;
-  prompt += `3. สรุปภาพรวมและให้คำแนะนำที่ชัดเจนเป็นประโยชน์\n\n`;
-  prompt += `ความยาว: 180-220 คำ | ใช้ภาษาที่อ่านง่าย กระชับ ตรงประเด็น`;
+  // Instructions for the AI - conclusion first structure
+  prompt += `\n--- รูปแบบคำทำนาย ---\n\n`;
+  prompt += `โครงสร้าง:\n\n`;
+  prompt += `1. ข้อสรุป (2-3 ประโยค):\n`;
+  prompt += `   - บอกคำตอบของคำถามอย่างชัดเจน\n`;
+  prompt += `   - สรุปภาพรวมที่ไพ่บอก\n`;
+  prompt += `   - ให้คำแนะนำหลักที่ควรทำ\n\n`;
+  prompt += `2. คำอธิบายไพ่แต่ละใบ:\n`;
+  cards.forEach((card, index) => {
+    prompt += `   • ${card.name}: อธิบายว่าไพ่นี้หมายถึงอะไร และทำไมจึงทำให้ได้ข้อสรุปดังกล่าว\n`;
+  });
+  prompt += `\n`;
+  prompt += `ตัวอย่างรูปแบบ:\n`;
+  prompt += `"[ข้อสรุป 2-3 ประโยค]\n\n`;
+  prompt += `ไพ่ ${cards[0]?.name || 'แรก'} แสดงให้เห็นว่า...\n`;
+  if (cards[1]) prompt += `ไพ่ ${cards[1].name} บ่งบอกว่า...\n`;
+  if (cards[2]) prompt += `ไพ่ ${cards[2].name} ชี้ให้เห็นว่า..."\n\n`;
+  prompt += `ความยาว: 150-200 คำ | กระชับ ชัดเจน ตรงประเด็น`;
 
   return prompt;
 }
