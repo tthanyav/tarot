@@ -1,10 +1,10 @@
 
 // ========== AI Prediction Functions ==========
 
-// API endpoint - will use Vercel serverless function
+// API endpoint - use relative path to work with any Vercel deployment URL
 const API_ENDPOINT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api/predict'  // Local development
-  : 'https://tarot-orpin-two.vercel.app/api/predict';  // Production
+  : '/api/predict';  // Production - relative path works for all Vercel URLs
 
 let tarotCardsData = null;
 let currentAIPrediction = null;
