@@ -9,3 +9,8 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.log
+
+# Environment variables
+.env
+.env.local
+.vercel

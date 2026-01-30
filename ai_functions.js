@@ -1,8 +1,10 @@
 
 // ========== AI Prediction Functions ==========
 
-const OPENAI_API_KEY = "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";
-const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+// API endpoint - will use Vercel serverless function
+const API_ENDPOINT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000/api/predict'  // Local development
+  : 'https://tarot-orpin-two.vercel.app/api/predict';  // Production
 
 let tarotCardsData = null;
 let currentAIPrediction = null;
@@ -82,27 +84,14 @@ async function getAIPrediction() {
     // Create prompt for AI
     const prompt = createTarotPrompt(question, cardsInfo, spreadType);
 
-    // Call OpenAI API
-    const response = await fetch(OPENAI_API_URL, {
+    // Call serverless API
+    const response = await fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content: "หมอดูไพ่ทาโรต์มืออาชีพ ให้คำทำนายภาษาไทยกระชับ อบอุ่น"
-          },
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
-        temperature: 0.8,
-        max_tokens: 800
+        prompt: prompt
       })
     });
 
@@ -113,8 +102,8 @@ async function getAIPrediction() {
 
     const data = await response.json();
 
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      const prediction = data.choices[0].message.content;
+    if (data.prediction) {
+      const prediction = data.prediction;
       currentAIPrediction = prediction;
 
       // Hide loading
