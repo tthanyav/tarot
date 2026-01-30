@@ -28,10 +28,16 @@ export default async function handler(req, res) {
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
     if (!OPENAI_API_KEY) {
+      console.error('OPENAI_API_KEY is not set');
       return res.status(500).json({ error: 'API key not configured' });
     }
 
-    // Call OpenAI API
+    console.log('API Key exists:', OPENAI_API_KEY ? 'Yes' : 'No');
+
+    // Call OpenAI API with timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25000); // 25 second timeout
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -52,8 +58,9 @@ export default async function handler(req, res) {
         ],
         temperature: 0.8,
         max_tokens: 800
-      })
-    });
+      }),
+      signal: controller.signal
+    }).finally(() => clearTimeout(timeout));
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
