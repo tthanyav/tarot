@@ -41,22 +41,22 @@ h1 {
 
 .section-box {
   max-width: 500px; width: 100%;
-  text-align: center; padding: 25px 20px;
+  text-align: center; padding: 30px 20px 20px;
   animation: fadeInUp 0.8s ease-out;
 }
 
-.decorative-icon { font-size: 24px; color: #B5A393; margin-bottom: 18px; opacity: 0.7; }
+.decorative-icon { font-size: 24px; color: #B5A393; margin-bottom: 15px; opacity: 0.7; }
 
 .section-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(20px, 5vw, 26px);
-  font-weight: 400; margin-bottom: 14px; color: #5C4D3D;
+  font-weight: 400; margin-bottom: 12px; color: #5C4D3D;
 }
 
 .instruction {
   font-size: clamp(12px, 3vw, 14px);
   line-height: 1.9; color: #8B7765;
-  margin-bottom: 25px; font-weight: 300;
+  margin-bottom: 20px; font-weight: 300;
 }
 
 textarea {
@@ -113,8 +113,8 @@ textarea:focus { border-color: #8B7765; background: rgba(255, 255, 255, 0.9); }
 .reversed-toggle {
   width: 100%;
   max-width: 350px;
-  margin: 0 auto 20px;
-  padding: 16px 18px;
+  margin: 15px auto 0;
+  padding: 14px 16px;
   background: rgba(255, 255, 255, 0.4);
   border: 1px solid #D4C8BB;
   border-radius: 8px;
@@ -181,7 +181,7 @@ textarea:focus { border-color: #8B7765; background: rgba(255, 255, 255, 0.9); }
 /* Spread Options */
 .spread-options {
   display: flex; flex-direction: column;
-  gap: 10px; max-width: 350px; width: 100%;
+  gap: 12px; max-width: 350px; width: 100%;
   margin: 0 auto; align-items: center;
 }
 
