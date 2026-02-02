@@ -167,14 +167,27 @@ function createTarotPrompt(userQuestion, cards, numCards) {
   prompt += `2. คำอธิบายไพ่แต่ละใบ:\n`;
   cards.forEach((card, index) => {
     const cardDesc = card.isReversed ? `${card.name} (กลับหัว)` : card.name;
-    prompt += `   • ${cardDesc}: อธิบายว่าไพ่นี้หมายถึงอะไร${card.isReversed ? ' เมื่อกลับหัวความหมายจะตรงกันข้ามหรือลดลง' : ''} และทำไมจึงทำให้ได้ข้อสรุปดังกล่าว\n`;
+    let instruction = `   • ${cardDesc}: `;
+    if (card.isReversed) {
+      instruction += `อธิบายความหมายเมื่อกลับหัว (ตรงกันข้าม/ลดกำลัง/ถูกบล็อก) และทำไมจึงส่งผลต่อคำตอบ`;
+    } else {
+      instruction += `อธิบายความหมายตามปกติ และเชื่อมโยงกับคำตอบ`;
+    }
+    prompt += instruction + `\n`;
   });
   prompt += `\n`;
-  prompt += `ตัวอย่างรูปแบบ:\n`;
+
+  // Add reversed cards explanation if any card is reversed
+  const hasReversed = cards.some(c => c.isReversed);
+  if (hasReversed) {
+    prompt += `\n**หมายเหตุ:** มีไพ่กลับหัว ต้องตีความหมายตรงกันข้ามหรือลดกำลัง\n`;
+  }
+
+  prompt += `\nตัวอย่างรูปแบบ:\n`;
   prompt += `"[ข้อสรุป 2-3 ประโยค]\n\n`;
-  prompt += `ไพ่ ${cards[0]?.name || 'แรก'} แสดงให้เห็นว่า...\n`;
-  if (cards[1]) prompt += `ไพ่ ${cards[1].name} บ่งบอกว่า...\n`;
-  if (cards[2]) prompt += `ไพ่ ${cards[2].name} ชี้ให้เห็นว่า..."\n\n`;
+  prompt += `ไพ่ ${cards[0]?.name || 'แรก'}${cards[0]?.isReversed ? ' (กลับหัว)' : ''} แสดงให้เห็นว่า...\n`;
+  if (cards[1]) prompt += `ไพ่ ${cards[1].name}${cards[1]?.isReversed ? ' (กลับหัว)' : ''} บ่งบอกว่า...\n`;
+  if (cards[2]) prompt += `ไพ่ ${cards[2].name}${cards[2]?.isReversed ? ' (กลับหัว)' : ''} ชี้ให้เห็นว่า..."\n\n`;
   prompt += `ความยาว: 150-200 คำ | กระชับ ชัดเจน ตรงประเด็น`;
 
   return prompt;
