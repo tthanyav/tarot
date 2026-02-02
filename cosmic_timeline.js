@@ -20,6 +20,9 @@ function toggleCosmicTimeline() {
 
     // Start star animation
     createStarfield();
+
+    // Initialize 3D scroll effects
+    setTimeout(() => init3DScrollEffects(), 100);
   } else {
     // Hide cosmic timeline
     cosmicView.classList.remove('active');
@@ -187,4 +190,39 @@ function closeCosmicTimeline() {
   if (timelineActive) {
     toggleCosmicTimeline();
   }
+}
+
+// 3D Scroll Effects
+function init3DScrollEffects() {
+  const scrollContainer = document.querySelector('.cosmic-timeline-scroll');
+  if (!scrollContainer) return;
+
+  scrollContainer.addEventListener('scroll', () => {
+    const cards = document.querySelectorAll('.cosmic-reading-card');
+    const scrollTop = scrollContainer.scrollTop;
+    const scrollHeight = scrollContainer.scrollHeight;
+    const clientHeight = scrollContainer.clientHeight;
+    const centerY = scrollTop + clientHeight / 2;
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const cardTop = scrollTop + rect.top;
+      const cardCenter = cardTop + rect.height / 2;
+      const distance = Math.abs(centerY - cardCenter);
+      const maxDistance = clientHeight / 2;
+      const normalizedDistance = Math.min(distance / maxDistance, 1);
+
+      // 3D Transform based on distance from center
+      const rotateX = (normalizedDistance - 0.5) * 8; // Tilt effect
+      const scale = 1 - normalizedDistance * 0.15; // Scale effect
+      const opacity = 1 - normalizedDistance * 0.3; // Fade effect
+      const translateZ = -normalizedDistance * 50; // Depth effect
+
+      card.style.transform = `translateZ(${translateZ}px) scale(${scale}) rotateX(${rotateX}deg)`;
+      card.style.opacity = opacity;
+    });
+  });
+
+  // Trigger initial calculation
+  scrollContainer.dispatchEvent(new Event('scroll'));
 }

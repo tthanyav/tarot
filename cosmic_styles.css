@@ -165,10 +165,12 @@
 .cosmic-timeline-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 60px 20px;
   animation: cosmicSlideUp 1s ease-out 0.3s both;
   display: flex;
   flex-direction: column-reverse;
+  perspective: 1500px;
+  align-items: center;
 }
 
 .cosmic-timeline-scroll::-webkit-scrollbar {
@@ -218,37 +220,30 @@
 
 /* Cosmic Date Group */
 .cosmic-date-group {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
   animation: cosmicFadeIn 0.8s ease-out both;
+  width: 100%;
+  max-width: 900px;
+  transform-style: preserve-3d;
 }
 
 .cosmic-date-marker {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .cosmic-orb {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   background: radial-gradient(circle, #a78bfa 0%, #7c3aed 100%);
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.8),
-              0 0 40px rgba(138, 43, 226, 0.4);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 1),
+              0 0 60px rgba(138, 43, 226, 0.6);
   animation: pulse 2s ease-in-out infinite;
   position: relative;
-}
-
-.cosmic-orb::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  width: 100vw;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(139, 92, 246, 0.5) 0%, transparent 100%);
-  transform: translateY(-50%);
 }
 
 @keyframes pulse {
@@ -267,9 +262,9 @@
 .cosmic-readings {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-left: 40px;
-  max-width: 800px;
+  gap: 24px;
+  width: 100%;
+  align-items: center;
 }
 
 /* Cosmic Reading Card */
@@ -277,13 +272,18 @@
   position: relative;
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.08) 100%);
   border: none;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 24px;
+  padding: 32px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   animation: cosmicSlideIn 0.6s ease-out both;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3),
+              0 0 60px rgba(138, 43, 226, 0.15);
+  width: 100%;
+  max-width: 700px;
+  transform-style: preserve-3d;
+  transform: translateZ(0) rotateX(0deg);
 }
 
 .cosmic-reading-card::before {
@@ -303,8 +303,10 @@
 }
 
 .cosmic-reading-card:hover {
-  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4), 0 0 30px rgba(138, 43, 226, 0.3);
-  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(139, 92, 246, 0.5),
+              0 0 80px rgba(138, 43, 226, 0.4),
+              0 0 120px rgba(139, 92, 246, 0.2);
+  transform: translateZ(30px) translateY(-10px) rotateX(2deg);
 }
 
 .cosmic-card-glow {
@@ -324,42 +326,50 @@
 }
 
 .reading-time {
-  font-size: 12px;
-  color: #a78bfa;
-  margin-bottom: 8px;
+  font-size: 14px;
+  color: #c4b5fd;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
+  font-weight: 500;
 }
 
 .reading-question {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   color: #f0e6ff;
-  margin-bottom: 15px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  text-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
 }
 
 .reading-cards {
   display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 20px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .cosmic-mini-card {
-  width: 70px;
-  height: 105px;
-  border-radius: 8px;
+  width: 120px;
+  height: 180px;
+  border-radius: 12px;
   overflow: hidden;
   border: none;
   position: relative;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 92, 246, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+              0 0 40px rgba(139, 92, 246, 0.4),
+              inset 0 0 0 1px rgba(139, 92, 246, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  transform: translateZ(0);
 }
 
 .cosmic-mini-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 25px rgba(139, 92, 246, 0.5);
+  transform: translateZ(20px) scale(1.08) rotateY(5deg);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+              0 0 60px rgba(139, 92, 246, 0.6),
+              0 0 100px rgba(138, 43, 226, 0.3);
 }
 
 .cosmic-mini-card img {
@@ -388,29 +398,39 @@
 }
 
 .cosmic-more {
-  width: 70px;
-  height: 105px;
-  border-radius: 8px;
-  background: rgba(139, 92, 246, 0.25);
+  width: 120px;
+  height: 180px;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.3);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  color: #c4b5fd;
-  font-weight: 600;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(139, 92, 246, 0.3);
+  font-size: 24px;
+  color: #f0e6ff;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+              0 0 40px rgba(139, 92, 246, 0.4);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cosmic-more:hover {
+  transform: translateZ(20px) scale(1.08);
+  background: rgba(139, 92, 246, 0.4);
 }
 
 .reading-arrow {
-  text-align: right;
-  color: #8b5cf6;
-  font-size: 20px;
-  transition: transform 0.3s ease;
+  text-align: center;
+  color: #a78bfa;
+  font-size: 28px;
+  transition: all 0.4s ease;
+  margin-top: 8px;
 }
 
 .cosmic-reading-card:hover .reading-arrow {
-  transform: translateX(5px);
+  transform: translateX(10px) scale(1.2);
+  color: #c4b5fd;
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
 }
 
 /* Animations */
@@ -450,12 +470,36 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .cosmic-readings {
-    margin-left: 20px;
-    max-width: 100%;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .cosmic-reading-card {
+    padding: 24px;
+    max-width: 95%;
+  }
+
+  .cosmic-mini-card {
+    width: 90px;
+    height: 135px;
+  }
+
+  .cosmic-more {
+    width: 90px;
+    height: 135px;
+    font-size: 20px;
+  }
+
+  .reading-cards {
+    gap: 12px;
+  }
+
+  .reading-question {
+    font-size: 16px;
   }
 
   .cosmic-container {
-    padding: 20px 15px;
+    padding: 20px 10px;
   }
 
   .cosmic-header {
@@ -467,5 +511,9 @@
     right: 10px;
     width: 36px;
     height: 36px;
+  }
+
+  .cosmic-timeline-scroll {
+    padding: 40px 10px;
   }
 }
