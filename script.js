@@ -332,14 +332,18 @@ const tarotCards = [
     
     function createCardWrapper(card, label, selectionOrder) {
       const wrapper = document.createElement('div');
-      wrapper.className = 'result-card-wrapper';
+      wrapper.className = 'result-card-wrapper' + (card.isReversed ? ' reversed' : '');
       wrapper.dataset.selectionOrder = selectionOrder;
+
+      const cardName = card.isReversed ? `${card.card_name} ↓` : card.card_name;
+      const imgClass = card.isReversed ? ' class="card-reversed"' : '';
+
       wrapper.innerHTML = `
         ${label ? '<p class="position-label">' + label + '</p>' : ''}
         <div class="result-card">
-          <img src="${card.image}" alt="${card.card_name}">
+          <img src="${card.image}" alt="${card.card_name}"${imgClass}>
         </div>
-        <h3 class="card-name">${card.card_name}</h3>
+        <h3 class="card-name">${cardName}</h3>
       `;
       revealWrappers.push({ wrapper, order: selectionOrder });
       return wrapper;
