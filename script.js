@@ -356,12 +356,17 @@ const tarotCards = [
     
     function goToStep4() {
       if (selectedCards.length !== spreadType) return;
-      
+
+      // Apply reversed status to cards if enabled
+      if (typeof applyReversedStatus === 'function') {
+        selectedCards = applyReversedStatus(selectedCards);
+      }
+
       incrementReadingCount();
-      
+
       document.getElementById('step3').classList.remove('active');
       document.getElementById('step4').classList.add('active');
-      
+
       const resultQuestion = document.getElementById('questionDisplayResult');
       if (question) {
         resultQuestion.textContent = '"' + question + '"';
@@ -370,20 +375,20 @@ const tarotCards = [
         resultQuestion.textContent = '';
         resultQuestion.style.display = 'none';
       }
-      
+
       const container = document.getElementById('resultCards');
       container.innerHTML = '';
       container.className = 'result-cards layout-' + spreadType;
-      
+
       revealWrappers = [];
-      
+
       if (spreadType === 1) renderLayout1(container);
       else if (spreadType === 2) renderLayout2(container);
       else if (spreadType === 3) renderLayout3(container);
       else if (spreadType === 4) renderLayout4(container);
       else if (spreadType === 10) renderLayout10(container);
       else if (spreadType === 12) renderLayout12(container);
-      
+
       revealCardsInOrder();
     }
     

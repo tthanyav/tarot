@@ -79,7 +79,8 @@ async function getAIPrediction() {
       if (cardDetails && cardDetails.readings) {
         return {
           name: cardDetails.card_name,
-          readings: cardDetails.readings
+          readings: cardDetails.readings,
+          isReversed: card.isReversed || false
         };
       }
       return null;
@@ -152,7 +153,8 @@ function createTarotPrompt(userQuestion, cards, numCards) {
   // Add cards
   prompt += `ไพ่ที่เปิดได้ ${numCards} ใบ:\n`;
   cards.forEach((card, index) => {
-    prompt += `${index + 1}. ${card.name}\n`;
+    const cardName = card.isReversed ? `${card.name} (กลับหัว/Reversed)` : card.name;
+    prompt += `${index + 1}. ${cardName}\n`;
   });
 
   // Instructions for the AI - conclusion first structure
@@ -164,7 +166,8 @@ function createTarotPrompt(userQuestion, cards, numCards) {
   prompt += `   - ให้คำแนะนำหลักที่ควรทำ\n\n`;
   prompt += `2. คำอธิบายไพ่แต่ละใบ:\n`;
   cards.forEach((card, index) => {
-    prompt += `   • ${card.name}: อธิบายว่าไพ่นี้หมายถึงอะไร และทำไมจึงทำให้ได้ข้อสรุปดังกล่าว\n`;
+    const cardDesc = card.isReversed ? `${card.name} (กลับหัว)` : card.name;
+    prompt += `   • ${cardDesc}: อธิบายว่าไพ่นี้หมายถึงอะไร${card.isReversed ? ' เมื่อกลับหัวความหมายจะตรงกันข้ามหรือลดลง' : ''} และทำไมจึงทำให้ได้ข้อสรุปดังกล่าว\n`;
   });
   prompt += `\n`;
   prompt += `ตัวอย่างรูปแบบ:\n`;
