@@ -49,6 +49,23 @@ function loadReadingFromHistory(readingId) {
   return history.find(r => r.id === readingId);
 }
 
+function updateReadingAIPrediction(readingId, aiPrediction) {
+  try {
+    const history = getReadingHistory();
+    const reading = history.find(r => r.id === readingId);
+
+    if (reading) {
+      reading.aiPrediction = aiPrediction;
+      localStorage.setItem('tarotReadingHistory', JSON.stringify(history));
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.error('Error updating AI prediction:', e);
+    return false;
+  }
+}
+
 function viewHistoryReading(readingId) {
   const reading = loadReadingFromHistory(readingId);
   if (!reading) return;

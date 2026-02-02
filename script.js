@@ -168,6 +168,7 @@ const tarotCards = [
     let shuffledCards = [];
     let spreadType = 3;
     let revealWrappers = [];
+    let currentReadingId = null;
     
     // Month labels for 12-card spread
     const monthLabels = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
@@ -392,6 +393,16 @@ const tarotCards = [
       else if (spreadType === 4) renderLayout4(container);
       else if (spreadType === 10) renderLayout10(container);
       else if (spreadType === 12) renderLayout12(container);
+
+      // Save to history
+      if (typeof saveReadingToHistory === 'function') {
+        currentReadingId = saveReadingToHistory({
+          question: question,
+          spreadType: spreadType,
+          cards: selectedCards,
+          aiPrediction: null
+        });
+      }
 
       revealCardsInOrder();
     }

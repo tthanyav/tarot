@@ -111,6 +111,11 @@ async function getAIPrediction() {
       const prediction = data.prediction;
       currentAIPrediction = prediction;
 
+      // Update reading history with AI prediction
+      if (typeof updateReadingAIPrediction === 'function' && typeof currentReadingId !== 'undefined' && currentReadingId) {
+        updateReadingAIPrediction(currentReadingId, prediction);
+      }
+
       // Hide loading
       document.getElementById('aiLoadingSection').style.display = 'none';
 
