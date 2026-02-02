@@ -109,6 +109,75 @@ textarea:focus { border-color: #8B7765; background: rgba(255, 255, 255, 0.9); }
 .btn-back:hover { color: #5C4D3D; }
 .btn-back svg { width: 16px; height: 16px; }
 
+/* Reversed Cards Toggle */
+.reversed-toggle {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto 20px;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid #D4C8BB;
+  border-radius: 8px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-container input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: #D4C8BB;
+  border-radius: 13px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  top: 3px;
+  left: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-container input[type="checkbox"]:checked + .toggle-slider {
+  background: #5C4D3D;
+}
+
+.toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
+  transform: translateX(22px);
+}
+
+.toggle-label {
+  font-size: 13px;
+  color: #4A4139;
+  font-weight: 400;
+  flex: 1;
+}
+
+.toggle-hint {
+  font-size: 10px;
+  color: #8B7765;
+  margin-top: 8px;
+  line-height: 1.6;
+  text-align: left;
+}
+
 /* Spread Options */
 .spread-options {
   display: flex; flex-direction: column;
@@ -709,4 +778,19 @@ footer { padding: 15px; text-align: center; }
   .ai-content { font-size: 14px; }
   .crystal-ball { width: 100px; height: 100px; }
   .ai-error-container { padding: 30px 20px; }
+}
+
+/* Reversed Cards */
+.card-reversed {
+  transform: rotate(180deg);
+}
+
+.result-card-wrapper.reversed .result-card-img {
+  transform: rotate(180deg);
+}
+
+.card-name-reversed::after {
+  content: ' ↓';
+  color: #8B7765;
+  font-size: 0.9em;
 }
