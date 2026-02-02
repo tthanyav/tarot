@@ -78,6 +78,82 @@ function viewHistoryReading(readingId) {
   goToStep4FromHistory();
 }
 
+function clearHistory() {
+  if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบประวัติการจับไพ่ทั้งหมด?')) {
+    localStorage.removeItem('tarotReadingHistory');
+    if (typeof loadCosmicHistory === 'function') {
+      loadCosmicHistory();
+    }
+  }
+}
+
+function mockupHistory() {
+  const questions = [
+    'เรื่องความรักของฉันจะเป็นอย่างไร',
+    'การงานในปีนี้จะเป็นอย่างไร',
+    'ฉันควรเปลี่ยนงานหรือไม่',
+    'คนที่ฉันชอบคิดอย่างไรกับฉัน',
+    'การเงินของฉันในอนาคตจะดีขึ้นไหม',
+    'ฉันจะได้เจอคนที่ใช่เมื่อไหร่',
+    'โอกาสในการเลื่อนตำแหน่งมีไหม',
+    'ครอบครัวของฉันจะมีความสุขไหม',
+    'ฉันควรลงทุนตอนนี้หรือไม่',
+    'สุขภาพของฉันเป็นอย่างไร',
+    'มิตรภาพของฉันจะยืนยาวไหม',
+    'ฉันควรศึกษาต่อหรือทำงาน',
+    'คำทำนายทั่วไป',
+    'อนาคตของฉันจะเป็นอย่างไร',
+    'ฉันกำลังเดินในเส้นทางที่ถูกต้องไหม'
+  ];
+
+  const spreadTypes = [1, 2, 3, 4, 10, 12];
+  const history = getReadingHistory();
+
+  // Create 30 mock readings
+  for (let i = 0; i < 30; i++) {
+    const daysAgo = Math.floor(Math.random() * 30);
+    const hoursAgo = Math.floor(Math.random() * 24);
+    const minutesAgo = Math.floor(Math.random() * 60);
+
+    const timestamp = new Date();
+    timestamp.setDate(timestamp.getDate() - daysAgo);
+    timestamp.setHours(timestamp.getHours() - hoursAgo);
+    timestamp.setMinutes(timestamp.getMinutes() - minutesAgo);
+
+    const spread = spreadTypes[Math.floor(Math.random() * spreadTypes.length)];
+    const mockCards = [];
+
+    for (let j = 0; j < spread; j++) {
+      const cardId = Math.floor(Math.random() * 78) + 1;
+      mockCards.push({
+        card_id: cardId,
+        card_name: `Card ${cardId}`,
+        image: `cards/${cardId}.jpg`,
+        isReversed: Math.random() > 0.6
+      });
+    }
+
+    const reading = {
+      id: Date.now() - i * 1000,
+      timestamp: timestamp.toISOString(),
+      question: questions[Math.floor(Math.random() * questions.length)],
+      spreadType: spread,
+      cards: mockCards,
+      aiPrediction: Math.random() > 0.5 ? 'คำทำนายจำลองสำหรับการทดสอบ UI การจับไพ่รอบนี้แสดงให้เห็นถึงพลังงานที่ดีและโอกาสที่กำลังจะมาถึง' : null
+    };
+
+    history.unshift(reading);
+  }
+
+  localStorage.setItem('tarotReadingHistory', JSON.stringify(history));
+
+  if (typeof loadCosmicHistory === 'function') {
+    loadCosmicHistory();
+  }
+
+  alert('สร้าง Mock Data 30 รายการเรียบร้อย!');
+}
+
 function goToStep4FromHistory() {
   document.getElementById('step1').classList.remove('active');
   document.getElementById('step2').classList.remove('active');
