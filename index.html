@@ -31,15 +31,6 @@
           <h2 class="section-title">เลือกรูปแบบการจับไพ่</h2>
           <p class="instruction">เลือกจำนวนไพ่ที่ต้องการเปิด</p>
 
-          <div class="reversed-toggle">
-            <label class="toggle-container">
-              <input type="checkbox" id="reversedToggle" onchange="toggleReversedCards()">
-              <span class="toggle-slider"></span>
-              <span class="toggle-label">เปิดใช้งานไพ่กลับหัว (Reversed Cards)</span>
-            </label>
-            <p class="toggle-hint">เมื่อเปิดใช้งาน ไพ่บางใบอาจกลับหัว ซึ่งจะมีความหมายที่ต่างออกไป</p>
-          </div>
-
           <div class="spread-options">
             <div class="spread-option" onclick="selectSpread(1)">
               <div class="spread-info">
@@ -89,6 +80,15 @@
               </div>
               <div class="spread-count">12</div>
             </div>
+          </div>
+
+          <div class="reversed-toggle">
+            <label class="toggle-container">
+              <input type="checkbox" id="reversedToggle" onchange="toggleReversedCards()">
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">เปิดใช้งานไพ่กลับหัว (Reversed Cards)</span>
+            </label>
+            <p class="toggle-hint">เมื่อเปิดใช้งาน ไพ่บางใบอาจกลับหัว ซึ่งจะมีความหมายที่ต่างออกไป</p>
           </div>
         </div>
         <div class="footer-decor">
