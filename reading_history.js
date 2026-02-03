@@ -124,11 +124,12 @@ function mockupHistory() {
     const mockCards = [];
 
     for (let j = 0; j < spread; j++) {
-      const cardId = Math.floor(Math.random() * 78) + 1;
+      const cardNum = Math.floor(Math.random() * 78);
+      const cardIdStr = `Card_Tarot_${cardNum.toString().padStart(2, '0')}`;
       mockCards.push({
-        card_id: cardId,
-        card_name: `Card ${cardId}`,
-        image: `cards/${cardId}.jpg`,
+        card_id: cardIdStr,
+        card_name: `Tarot Card ${cardNum}`,
+        image: `images/${cardIdStr}.png`,
         isReversed: Math.random() > 0.6
       });
     }
