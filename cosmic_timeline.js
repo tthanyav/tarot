@@ -71,42 +71,58 @@ function createShootingStar() {
   setTimeout(() => shootingStar.remove(), 2000);
 }
 
-// Apply fan layout to cards
-function applyFanLayout() {
-  const cardContainers = document.querySelectorAll('.reading-cards');
+// Apply fan or stack layout based on visibility
+function applyCardLayout(container, isCentered) {
+  const cards = container.querySelectorAll('.cosmic-mini-card, .cosmic-more');
+  const totalCards = cards.length;
 
-  cardContainers.forEach(container => {
-    const cards = container.querySelectorAll('.cosmic-mini-card, .cosmic-more');
-    const totalCards = cards.length;
+  if (totalCards === 0) return;
 
-    if (totalCards === 0) return;
+  const middleIndex = (totalCards - 1) / 2;
 
-    // Calculate fan parameters
-    const maxRotation = 25; // Maximum rotation angle in degrees
-    const cardSpacing = 40; // Horizontal spacing between cards
-    const middleIndex = (totalCards - 1) / 2;
-
-    cards.forEach((card, index) => {
-      // Calculate rotation angle
+  cards.forEach((card, index) => {
+    if (isCentered) {
+      // Fan layout when centered
+      const maxRotation = 25;
+      const cardSpacing = 40;
       const rotation = (index - middleIndex) * (maxRotation / Math.max(middleIndex, 1));
-
-      // Calculate horizontal position
       const xOffset = (index - middleIndex) * cardSpacing;
-
-      // Calculate vertical position (arc effect)
       const yOffset = Math.abs(index - middleIndex) * 15;
-
-      // Calculate z-index (center cards on top)
       const zIndex = 50 - Math.abs(index - middleIndex) * 5;
 
-      // Apply transforms
       card.style.transform = `translateX(${xOffset}px) translateY(${yOffset}px) rotate(${rotation}deg)`;
       card.style.zIndex = zIndex;
+    } else {
+      // Stack layout when not centered
+      const stackOffset = index * 3;
+      const zIndex = index;
 
-      // Add staggered animation delay
-      const animationDelay = index * 0.3;
-      card.style.animationDelay = `${animationDelay}s`;
-    });
+      card.style.transform = `translateX(${stackOffset}px) translateY(0px) rotate(0deg)`;
+      card.style.zIndex = zIndex;
+    }
+  });
+}
+
+// Update all card layouts based on scroll position
+function updateCardLayouts() {
+  const scrollContainer = document.querySelector('.cosmic-timeline-scroll');
+  if (!scrollContainer) return;
+
+  const readingCards = document.querySelectorAll('.cosmic-reading-card');
+  const containerRect = scrollContainer.getBoundingClientRect();
+  const centerY = containerRect.top + containerRect.height / 2;
+
+  readingCards.forEach(readingCard => {
+    const cardContainer = readingCard.querySelector('.reading-cards');
+    if (!cardContainer) return;
+
+    const cardRect = readingCard.getBoundingClientRect();
+    const cardCenterY = cardRect.top + cardRect.height / 2;
+    const distance = Math.abs(centerY - cardCenterY);
+    const threshold = 200; // Distance threshold for being "centered"
+
+    const isCentered = distance < threshold;
+    applyCardLayout(cardContainer, isCentered);
   });
 }
 
@@ -174,8 +190,15 @@ function loadCosmicHistory() {
     `;
   }).join('');
 
-  // Apply fan layout after rendering
-  setTimeout(() => applyFanLayout(), 100);
+  // Apply initial layout and setup scroll listener
+  setTimeout(() => {
+    updateCardLayouts();
+
+    const scrollContainer = document.querySelector('.cosmic-timeline-scroll');
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', updateCardLayouts);
+    }
+  }, 100);
 }
 
 // Group readings by date

@@ -217,6 +217,8 @@
   flex-direction: column-reverse;
   perspective: 1500px;
   align-items: center;
+  scroll-snap-type: y mandatory;
+  scroll-padding: 50vh;
 }
 
 .cosmic-timeline-scroll::-webkit-scrollbar {
@@ -329,6 +331,8 @@
   max-width: 800px;
   transform-style: preserve-3d;
   transform: translateZ(0) rotateX(0deg);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 
