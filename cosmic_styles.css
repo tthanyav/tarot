@@ -364,7 +364,7 @@
 
 .cosmic-mini-card {
   width: 160px;
-  height: 240px;
+  height: 274px;
   border-radius: 16px;
   overflow: hidden;
   border: none;
@@ -425,7 +425,7 @@
 
 .cosmic-more {
   width: 160px;
-  height: 240px;
+  height: 274px;
   border-radius: 16px;
   background: rgba(139, 92, 246, 0.25);
   border: none;
@@ -508,12 +508,12 @@
 
   .cosmic-mini-card {
     width: 100px;
-    height: 150px;
+    height: 171px;
   }
 
   .cosmic-more {
     width: 100px;
-    height: 150px;
+    height: 171px;
     font-size: 24px;
   }
 
