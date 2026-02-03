@@ -71,6 +71,45 @@ function createShootingStar() {
   setTimeout(() => shootingStar.remove(), 2000);
 }
 
+// Apply fan layout to cards
+function applyFanLayout() {
+  const cardContainers = document.querySelectorAll('.reading-cards');
+
+  cardContainers.forEach(container => {
+    const cards = container.querySelectorAll('.cosmic-mini-card, .cosmic-more');
+    const totalCards = cards.length;
+
+    if (totalCards === 0) return;
+
+    // Calculate fan parameters
+    const maxRotation = 25; // Maximum rotation angle in degrees
+    const cardSpacing = 40; // Horizontal spacing between cards
+    const middleIndex = (totalCards - 1) / 2;
+
+    cards.forEach((card, index) => {
+      // Calculate rotation angle
+      const rotation = (index - middleIndex) * (maxRotation / Math.max(middleIndex, 1));
+
+      // Calculate horizontal position
+      const xOffset = (index - middleIndex) * cardSpacing;
+
+      // Calculate vertical position (arc effect)
+      const yOffset = Math.abs(index - middleIndex) * 15;
+
+      // Calculate z-index (center cards on top)
+      const zIndex = 50 - Math.abs(index - middleIndex) * 5;
+
+      // Apply transforms
+      card.style.transform = `translateX(${xOffset}px) translateY(${yOffset}px) rotate(${rotation}deg)`;
+      card.style.zIndex = zIndex;
+
+      // Add staggered animation delay
+      const animationDelay = index * 0.3;
+      card.style.animationDelay = `${animationDelay}s`;
+    });
+  });
+}
+
 // Load and display cosmic history
 function loadCosmicHistory() {
   const history = getReadingHistory();
@@ -134,6 +173,9 @@ function loadCosmicHistory() {
       </div>
     `;
   }).join('');
+
+  // Apply fan layout after rendering
+  setTimeout(() => applyFanLayout(), 100);
 }
 
 // Group readings by date
